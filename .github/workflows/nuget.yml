@@ -2,6 +2,9 @@ name: release nuget
 on:
   workflow_dispatch:
   push:
+    paths:
+      - **/*.cs
+      - **/N3gD0r.Utils.Models.csproj
     branches:
       - "main"
 env:

@@ -3,8 +3,10 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - **/*.cs
-      - **/N3gD0r.Utils.Models.csproj
+      - "N3gD0r.Utils.Models/*.cs"
+      - "N3gD0r.Utils.Models/*.csproj"
+      - "*.sln"
+      - "*.slnx"
     branches:
       - "main"
 env:

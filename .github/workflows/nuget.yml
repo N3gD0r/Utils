@@ -53,5 +53,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
           REPO: ${{ github.repository }}
         run: |
-          gh release create "$VPATCH" --REPO "$REPO" --notes ""
+          gh release create "$VPATCH" --repo "$REPO" --notes ""
           gh release upload "$VPATCH" ./*nupkg --repo "$REPO"

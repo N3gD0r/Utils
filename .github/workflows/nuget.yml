@@ -1,0 +1,57 @@
+name: release nuget
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+env:
+  DOTNET_VERSION: 10.0.x
+  PAT: ${{ secrets.PAT }}
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - id: prev_version
+        uses: WyriHaximus/github-action-get-previous-tag@v1.4.0
+        env:
+          GITHUB_TOKEN: ${{ env.PAT }}
+        with:
+          fallback: 0.0.0
+      - id: next_version
+        uses: WyriHaximus/github-action-get-next-semvers@v1.2.1
+        with:
+          version: ${{ steps.prev_version.outputs.tag }}
+      - name: Setup env
+        env:
+          VPATCH: ${{ steps.next_version.outputs.v_patch }}
+          VERSION: ${{ steps.next_version.outputs.patch }}
+        run: |
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "VPATCH=$VPATCH" >> "$GITHUB_ENV"
+      - id: auth_github
+        run: dotnet nuget add source --username N3gD0r --password "$PAT" --store-password-in-clear-text --name github "https://nuget.pkg.github.com/N3gD0r/index.json"
+      - id: deps
+        run: dotnet restore
+      - id: build
+        run: dotnet build -c Release --no-restore /p:Version="$VERSION" ./N3gD0r.Utils.slnx
+      - id: package
+        run: dotnet pack -c Release --no-build /p:Version="$VERSION" ./N3gD0r.Utils.slnx --output .
+      - id: publish
+        run: dotnet nuget push N3gD0r.Utils.Models."$VERSION".nupkg --api-key "$PAT" --source "github" --skip-duplicate
+      - id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh release create "$VPATCH" --REPO "$REPO" --notes ""
+          gh release upload "$VPATCH" ./*nupkg --repo "$REPO"

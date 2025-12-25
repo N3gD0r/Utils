@@ -4,6 +4,8 @@
     <PackageId>N3gD0r.Utils</PackageId>
     <Version>0.0.1</Version>
     <Authors>David Hernandez Morones</Authors>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/N3gD0r/Utils</RepositoryUrl>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

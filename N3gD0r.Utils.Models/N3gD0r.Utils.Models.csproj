@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>N3gD0r.Utils</PackageId>
+    <PackageId>N3gD0r.Utils.Models</PackageId>
     <Version>0.0.1</Version>
     <Authors>David Hernandez Morones</Authors>
     <RepositoryType>git</RepositoryType>

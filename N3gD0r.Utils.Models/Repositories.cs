@@ -14,9 +14,15 @@ public interface IReadRepository<TEntity, TKey>
     where TEntity : IEntityBase<TKey>
 {
     Task<TEntity> ReadByIdAsync(TKey id, CancellationToken cancellationToken = default);
-    Task<IEnumerable<TEntity>> ReadAllAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<TEntity>> ReadAllAsync(
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        string includeProperties = "",
+        CancellationToken cancellationToken = default
+    );
     Task<IEnumerable<TEntity>> ReadByAsync(
-        Expression<Func<TEntity, bool>> expression,
+        Expression<Func<TEntity, bool>>? expression = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        string includeProperties = "",
         CancellationToken cancellationToken = default
     );
 }

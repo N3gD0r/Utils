@@ -28,7 +28,7 @@ jobs:
         with:
           fallback: 0.0.0
       - id: next_version
-        uses: WyriHaximus/github-action-get-next-semvers@v1.2.1
+        uses: WyriHaximus/github-action-next-semvers@v1.2.1
         with:
           version: ${{ steps.prev_version.outputs.tag }}
       - name: Setup env

@@ -41,7 +41,7 @@ jobs:
       - id: auth_github
         run: dotnet nuget add source --username N3gD0r --password "$PAT" --store-password-in-clear-text --name github "https://nuget.pkg.github.com/N3gD0r/index.json"
       - id: deps
-        run: dotnet restore
+        run: dotnet restore ./N3gD0r.Utils.slnx
       - id: build
         run: dotnet build -c Release --no-restore /p:Version="$VERSION" ./N3gD0r.Utils.slnx
       - id: package
